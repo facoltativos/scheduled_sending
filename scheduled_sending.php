@@ -704,6 +704,7 @@ class scheduled_sending extends rcube_plugin
         $panel = $this->build_inline_panel_html();
 
         $patterns = array(
+            '/(<div id="compose-options"[^>]*>)/i',
             '/(<div id="composeheaders"[^>]*>)/i',
             '/(<div id="compose-headers"[^>]*>)/i',
         );
@@ -747,7 +748,7 @@ class scheduled_sending extends rcube_plugin
 			  var d = new Date(when.value);
 			  if (isNaN(d.getTime()) || d.getTime() <= Date.now()) { if (window.rcmail) rcmail.display_message('Pick a future time', 'error'); return; }
 
-			  var form = document.getElementById('composeform') || btn.closest('form');
+			  var form = document.getElementById('composeform') || document.querySelector('#compose-content > form') || btn.closest('form');
 			  if (!form) { if (window.rcmail) rcmail.display_message('Compose form not ready', 'error'); return; }
 
 			  // build payload (minimal safe fields)
@@ -807,10 +808,9 @@ class scheduled_sending extends rcube_plugin
 		HTML;
 
 				$html = <<<HTML
-		<div id="ss-inline-schedule" class="ss-row">
-		  <label class="ss-label">⏰ Send at</label>
-		  <input id="ss-when" type="datetime-local" name="_schedule_at" value="{$def}" />
-		  <button type="button" id="ss-schedule-btn" class="button">Send later</button>
+		<div id="ss-inline-schedule" class="form-group row">
+		    <div class="col-6"><button type="button" id="ss-schedule-btn" class="btn btn-secondary w-75">🕰️ Send later</button></div>
+		    <div class="col-6"><input id="ss-when" type="datetime-local" name="_schedule_at" value="{$def}" class="form-control"></div>
 		</div>
 		$inline
 		HTML;
