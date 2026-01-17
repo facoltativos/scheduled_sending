@@ -1148,7 +1148,7 @@ class scheduled_sending extends rcube_plugin
     }
     private function build_minimal_mime($from, $to, $cc, $bcc, $subject, $body, $is_html)
     {
-        $nl = "";
+        $nl = "\r\n";
         $headers = array();
         $headers[] = 'Date: ' . date('r');
         if ($from)   $headers[] = 'From: ' . $from;
