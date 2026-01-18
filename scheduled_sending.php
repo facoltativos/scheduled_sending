@@ -1228,6 +1228,10 @@ class scheduled_sending extends rcube_plugin
                 // Remove To/Subject headers from hdrblock to avoid duplication
                 $hdrblock = preg_replace('/^(Subject|To):.*\\r?\\n/im', '', $hdrblock);
 
+                // Force Date header with current sending date and time
+                $current_date = date('r');
+                $hdrblock = preg_replace('/^(Date):.*\\r?\\n/im', "Date: $current_date\r\n", $hdrblock);
+
                 $params = '';
                 if ($from && preg_match('/<([^>]+)>/', $from, $m)) {
                     $params = '-f ' . escapeshellarg($m[1]);
