@@ -137,10 +137,11 @@ $env_from = trim($env_from);
             $rcpts_all = array_values(array_unique(array_merge($rcpts_hdr, $rcpts_meta)));
 
             // Ensure required headers
-            if (empty($headers_arr['Date'])) {
-                $headers_arr['Date'] = gmdate('D, d M Y H:i:s').' +0000';
+            if (empty($headers_arr['Date']))
                 $headers_arr['X-SS-Patched-Date'] = '1';
-            }
+            // Force Date header with current sending date and time
+            $headers_arr['Date'] = gmdate('D, d M Y H:i:s').' +0000';
+
             if (empty($headers_arr['Message-ID']) && !empty($env_from)) {
                 $dom = substr(strrchr($env_from, '@'), 1);
                 if (!$dom) $dom = 'localhost';
